@@ -13,13 +13,14 @@
         <tr>
             <th scope="col">Nombre</th>
             <th scope="col">Estado</th>
-            <th scope="col"></th>
+            <th scope="col">Apostar</th>
+            <th scope="col">Apuesta</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.lstJugadores)
         {
-            <tr>
+            <tr id="row_@item.Identificacion">
                 <td>@item.Nombre</td>
                 @if (item.Estado == "A")
                 {
@@ -31,18 +32,21 @@
                 }
                 @if (item.Estado == "A")
                 {
-                    <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible);">Participar Juego</button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible, @item.Identificacion);">Participar Juego</button></td>
                 }
                 else
                 {
                     <td>No puede participar del juego</td>
                 }
 
+                <td id="apuesta_@item.Identificacion"></td>
             </tr>
         }
     </tbody>
 </table>
 
+<input type="hidden" id="valorApostado" />
+<input type="hidden" id="idSeleccionado" />
 <!--Seccion del simulador-->
 <div id="ruleta"><button type="button" class="btn btn-danger" onclick="SimularRuleta();">Simular Ruleta</button></div>
 
@@ -69,7 +73,7 @@
                     </div>
                     <div class="form-group required">
                         <label class="col-form-label control-label">Opción de apuesta (%):</label>
-                        <select class="form-control" id="simuladorOpciones">
+                        <select class="form-control" id="simuladorOpciones" onchange="CalcularCantidad()">
                             <option value="0">Seleccione...</option>
                             <option value="11">11 %</option>
                             <option value="12">12 %</option>
@@ -85,7 +89,7 @@
                     </div>
                     <div class="form-group required">
                         <label class="col-form-label control-label">Color de apuesta:</label>
-                        <select class="form-control" id="simuladorColores" onchange="cambiarColor()">
+                        <select class="form-control" id="simuladorColores" onchange="CambiarColor()">
                             <option value="0">Seleccione...</option>
                             <option value="1">Rojo</option>
                             <option value="2">Negro</option>
@@ -93,10 +97,13 @@
                         </select>
                     </div>
                     <div id="colorSeleccionado"><span>...</span></div>
+                    <div class="form-group">
+                        <label class="col-form-label control-label">Cantidad Apostada:</label>
+                        <input type="text" class="form-control" id="simuladorCantidadApostada">
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <input type="hidden" id="operacion" />
+            <div class="modal-footer">                
                 <button type="button" class="btn btn-primary" onclick="GuardarApuesta();">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
