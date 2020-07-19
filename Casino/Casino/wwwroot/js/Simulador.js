@@ -78,7 +78,7 @@ function GuardarApuesta() {
     }
 }
 
-//Funcion para limpiar los campos de la modal
+//Funcion para calcular el valor apostado con el porcentaje seleccionado
 //@author: Anderson Benavides
 //Fecha: 2020/19/07
 function CalcularCantidad() {
@@ -90,4 +90,33 @@ function CalcularCantidad() {
         $("#simuladorCantidadApostada").val((disponible * opcion) / 100);
     }
     $("#valorApostado").val($("#simuladorCantidadApostada").val());
+}
+
+//Funcion para simular el juego de la ruleta
+//@author: Anderson Benavides
+//Fecha: 2020/19/07
+function SimularRuleta() {
+    // Rojo-> Random (0, 49.5) - 49.5% 
+    // Negro-> Random (49.5, 99) - 49.5% 
+    // Verde-> Random (99, 100) - 1%
+    var numeroRuleta = getRandomArbitrary(0, 100);
+    if (numeroRuleta >= 0 && numeroRuleta <= 49.5) {
+        $("#colorRuleta").html('Rojo');
+        $("#colorPantallaRuleta").css("background-color", "red");
+    } else if (numeroRuleta > 49.6 && numeroRuleta <= 99) {
+        $("#colorRuleta").html('Negro');
+        $("#colorPantallaRuleta").css("background-color", "black");
+    } else {
+        $("#colorRuleta").html('Verde');
+        $("#colorPantallaRuleta").css("background-color", "green");
+    }
+
+    $("#valorSimulador").modal();
+}
+
+//Funcion para obtener random entre 2 numeros
+//@author: Anderson Benavides
+//Fecha: 2020/19/07
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
 }

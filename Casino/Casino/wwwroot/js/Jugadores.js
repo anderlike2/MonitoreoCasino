@@ -160,3 +160,11 @@ function ConfirmarEliminarJugador() {
         },
     });
 }
+
+//Funcion para solo numeros
+//@author: Anderson Benavides
+//Fecha: 2020/19/07
+function SoloNumeros(e) {
+    var key = e.charCode;
+    return key >= 48 && key <= 57;
+}

@@ -13,6 +13,7 @@
         <tr>
             <th scope="col">Nombre</th>
             <th scope="col">Estado</th>
+            <th scope="col">Disponible</th>
             <th scope="col">Apostar</th>
             <th scope="col">Apuesta</th>
         </tr>
@@ -20,27 +21,28 @@
     <tbody>
         @foreach (var item in Model.lstJugadores)
         {
-            <tr id="row_@item.Identificacion">
-                <td>@item.Nombre</td>
-                @if (item.Estado == "A")
-                {
-                    <td>Activo</td>
-                }
-                else
-                {
-                    <td>Inactivo</td>
-                }
-                @if (item.Estado == "A")
-                {
-                    <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible, @item.Identificacion);">Participar Juego</button></td>
-                }
-                else
-                {
-                    <td>No puede participar del juego</td>
-                }
+        <tr id="row_@item.Identificacion">
+            <td>@item.Nombre</td>
+            @if (item.Estado == "A")
+            {
+                <td>Activo</td>
+            }
+            else
+            {
+                <td>Inactivo</td>
+            }
+            <td>@item.Disponible</td>
+            @if (item.Estado == "A")
+            {
+                <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible, @item.Identificacion);">Participar Juego</button></td>
+            }
+            else
+            {
+                <td>No puede participar del juego</td>
+            }
 
-                <td id="apuesta_@item.Identificacion"></td>
-            </tr>
+            <td id="apuesta_@item.Identificacion"></td>
+        </tr>
         }
     </tbody>
 </table>
@@ -48,7 +50,8 @@
 <input type="hidden" id="valorApostado" />
 <input type="hidden" id="idSeleccionado" />
 <!--Seccion del simulador-->
-<div id="ruleta"><button type="button" class="btn btn-danger" onclick="SimularRuleta();">Simular Ruleta</button></div>
+<button type="button" class="btn btn-danger" onclick="SimularRuleta();">Simular Ruleta</button>
+<button type="button" class="btn btn-default" onclick="ReiniciarApuestas();">Reiniciar Apuestas</button>
 
 <!--Modal para apuesta de los jugadores-->
 <div class="modal" tabindex="-1" role="dialog" id="participarJuego">
@@ -96,16 +99,37 @@
                             <option value="3">Verde</option>
                         </select>
                     </div>
-                    <div id="colorSeleccionado"><span>...</span></div>
+                    <div id="colorSeleccionado"><span>.</span></div>
                     <div class="form-group">
                         <label class="col-form-label control-label">Cantidad Apostada:</label>
                         <input type="text" class="form-control" id="simuladorCantidadApostada">
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">                
+            <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GuardarApuesta();">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal simulador -->
+<div class="modal" tabindex="-1" role="dialog" id="valorSimulador">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Resultado de la Ruleta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>El resultado de la ruleta es:  <span id="colorRuleta"></span></div>
+                <div id="colorPantallaRuleta">.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
