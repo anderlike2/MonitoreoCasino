@@ -1,17 +1,105 @@
-﻿@{
-    ViewData["Title"] = "Simulador";
+﻿@model Casino.Models.SimuladorModel
+
+@{
+    ViewData["Title"] = "Simulador de Juegos";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<!--Seccion Scripts-->
+<script type="text/javascript" src="~/js/Simulador.js"></script>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lstJugadores)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                @if (item.Estado == "A")
+                {
+                    <td>Activo</td>
+                }
+                else
+                {
+                    <td>Inactivo</td>
+                }
+                @if (item.Estado == "A")
+                {
+                    <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible);">Participar Juego</button></td>
+                }
+                else
+                {
+                    <td>No puede participar del juego</td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!--Seccion del simulador-->
+<div id="ruleta"><button type="button" class="btn btn-danger" onclick="SimularRuleta();">Simular Ruleta</button></div>
+
+<!--Modal para apuesta de los jugadores-->
+<div class="modal" tabindex="-1" role="dialog" id="participarJuego">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Por favor ingresar la información del Juego</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Nombre Completo:</label>
+                        <input type="text" class="form-control" id="simuladorNombreCompleto">
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Dinero Disponible ($):</label>
+                        <input type="text" class="form-control" id="simuladorDineroDisponible">
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Opción de apuesta (%):</label>
+                        <select class="form-control" id="simuladorOpciones">
+                            <option value="0">Seleccione...</option>
+                            <option value="11">11 %</option>
+                            <option value="12">12 %</option>
+                            <option value="13">13 %</option>
+                            <option value="14">14 %</option>
+                            <option value="15">15 %</option>
+                            <option value="16">16 %</option>
+                            <option value="17">17 %</option>
+                            <option value="18">18 %</option>
+                            <option value="19">19 %</option>
+                            <option value="100">ALL IN</option>
+                        </select>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Color de apuesta:</label>
+                        <select class="form-control" id="simuladorColores" onchange="cambiarColor()">
+                            <option value="0">Seleccione...</option>
+                            <option value="1">Rojo</option>
+                            <option value="2">Negro</option>
+                            <option value="3">Verde</option>
+                        </select>
+                    </div>
+                    <div id="colorSeleccionado"><span>...</span></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="operacion" />
+                <button type="button" class="btn btn-primary" onclick="GuardarApuesta();">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

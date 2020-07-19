@@ -37,7 +37,14 @@
                 <td>Femenino</td>
             }
 
-            <td>@item.Estado</td>
+            @if (item.Estado == "A")
+            {
+                <td>Activo</td>
+            }
+            else
+            {
+                <td>Inactivo</td>
+            }
             <td>@item.Disponible</td>
             <td><button type="button" class="btn btn-primary" onclick="EditarJugador(@item.TipoIdentificacion, @item.Identificacion);">Editar</button></td>
             <td><button type="button" class="btn btn-danger" onclick="EliminarJugador(@item.TipoIdentificacion, @item.Identificacion);">Eliminar</button></td>

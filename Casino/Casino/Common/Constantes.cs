@@ -14,6 +14,7 @@ namespace Casino.Common
     {
         #region titulos
         public const string TituloJugadores = "Manejo de jugadores.";
+        public const string TituloSimulador = "Simulador de juegos.";
         #endregion
     }
 }

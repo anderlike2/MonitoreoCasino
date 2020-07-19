@@ -61,8 +61,15 @@ namespace Casino.Services
         /// <param name="pathDB"> Ruta del archivo de Base de datos</param>
         public bool ActualizarJugador(RegistroModel registroModel, string pathDB)
         {
-            JugadoresDao jugadoresDao = new JugadoresDao();
-            registroModel.EstadoJugador = "A";
+            JugadoresDao jugadoresDao = new JugadoresDao();            
+            if(registroModel.DisponibleJugador <= 0)
+            {
+                registroModel.EstadoJugador = "I";
+            }
+            else
+            {
+                registroModel.EstadoJugador = "A";
+            }
             return jugadoresDao.ActualizarJugador(registroModel, pathDB);
         }
 

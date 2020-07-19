@@ -133,9 +133,26 @@ namespace Casino.Controllers
 
         public IActionResult Simulador()
         {
-            ViewData["Message"] = "Your contact page.";
+            try
+            {
+                SimuladorModel modelo = new SimuladorModel();
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
 
-            return View();
+                //Se consulta los jugadores del sistema
+                modelo.lstJugadores = jugadoresService.ConsultarJugadores(dbConn);
+
+                ViewData["Message"] = Constantes.TituloJugadores;
+                return View(modelo);
+            }
+            catch (BusinessException ex)
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
