@@ -51,6 +51,86 @@ namespace Casino.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult AlmacenarJugador(RegistroModel model)
+        {
+            try
+            {
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
+                jugadoresService.InsertarJugador(model, dbConn);
+                return Json("OK");
+            }
+            catch (BusinessException ex)
+            {
+                return Json("FAIL");
+            }
+            catch (Exception ex)
+            {
+                return Json("FAIL");
+            }            
+        }
+
+        [HttpPost]
+        public JsonResult ConsultarJugador(RegistroModel model)
+        {
+            try
+            {
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
+                JugadoresModel jugador = jugadoresService.ConsultarJugadoresPorIdentificacion(model, dbConn);
+                return Json(jugador);
+            }
+            catch (BusinessException ex)
+            {
+                return Json("FAIL");
+            }
+            catch (Exception ex)
+            {
+                return Json("FAIL");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult EditarJugador(RegistroModel model)
+        {
+            try
+            {
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
+                jugadoresService.ActualizarJugador(model, dbConn);
+                return Json("OK");
+            }
+            catch (BusinessException ex)
+            {
+                return Json("FAIL");
+            }
+            catch (Exception ex)
+            {
+                return Json("FAIL");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult EliminarJugador(RegistroModel model)
+        {
+            try
+            {
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
+                jugadoresService.EliminarJugador(model.TipoIdentificacionJugador, model.IdentificacionJugador, dbConn);
+                return Json("OK");
+            }
+            catch (BusinessException ex)
+            {
+                return Json("FAIL");
+            }
+            catch (Exception ex)
+            {
+                return Json("FAIL");
+            }
+        }
+
         public IActionResult Simulador()
         {
             ViewData["Message"] = "Your contact page.";

@@ -35,3 +35,9 @@ body {
         display: none;
     }
 }
+
+/*Estilos propios de la aplicacion*/
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}

@@ -4,9 +4,12 @@
     ViewData["Title"] = "Manejo de Jugadores";
 }
 <h2>@ViewData["Title"]</h2>
-<br /><br />
 
-<button type="button" class="btn btn-success">Agregar Jugador</button>
+<!--Seccion Scripts-->
+<script type="text/javascript" src="~/js/Jugadores.js"></script>
+
+<!--Contenido-->
+<button type="button" class="btn btn-success" onclick="AbrirModalJugadores();">Agregar Jugador</button>
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -15,21 +18,111 @@
             <th scope="col">Sexo</th>
             <th scope="col">Estado</th>
             <th scope="col">Disponible ($)</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Eliminar</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-       @foreach(var item in Model.lstJugadores)
-       {
+        @foreach (var item in Model.lstJugadores)
+        {
         <tr>
             <td>@item.Nombre</td>
             <td>@item.Edad</td>
-            <td>@item.Sexo</td>
+            @if (item.Sexo == "1")
+            {
+                <td>Masculino</td>
+            }
+            else
+            {
+                <td>Femenino</td>
+            }
+
             <td>@item.Estado</td>
             <td>@item.Disponible</td>
+            <td><button type="button" class="btn btn-primary" onclick="EditarJugador(@item.TipoIdentificacion, @item.Identificacion);">Editar</button></td>
+            <td><button type="button" class="btn btn-danger" onclick="EliminarJugador(@item.TipoIdentificacion, @item.Identificacion);">Eliminar</button></td>
         </tr>
-       }
+        }
     </tbody>
 </table>
+<input type="hidden" id="tipoIdeEliminar" />
+<input type="hidden" id="ideEliminar" />
+
+<!--Modal para agregar jugadores-->
+<div class="modal" tabindex="-1" role="dialog" id="agregarJugador">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Por favor ingresar la información del Jugador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Tipo de Identificación:</label>
+                        <select class="form-control" id="agregarTipoIdentificacion">
+                            <option value="0">Seleccione...</option>
+                            <option value="1">Cédula de Ciudadanía</option>
+                            <option value="2">Cédula de Extranjería</option>
+                            <option value="3">Nit</option>
+                        </select>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Número de Identificación:</label>
+                        <input type="text" class="form-control" id="agregarNumeroIdentificacion">
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Nombre Completo:</label>
+                        <input type="text" class="form-control" id="agregarNombreCompleto">
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Edad:</label>
+                        <input type="text" class="form-control" id="agregarEdad">
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Sexo:</label>
+                        <select class="form-control" id="agregarSexo">
+                            <option value="0">Seleccione...</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Femenino</option>
+                        </select>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-form-label control-label">Dinero Disponible ($):</label>
+                        <input type="text" class="form-control" id="agregarDineroDisponible">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="operacion"/>
+                <button type="button" class="btn btn-primary" onclick="GuardarJugador();">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal confirmacion de eliminacion-->
+<div class="modal" tabindex="-1" role="dialog" id="eliminarJugador">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar Jugador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Está seguro de eliminar el jugador?.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ConfirmarEliminarJugador();">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 

@@ -12,6 +12,16 @@ namespace Casino.Models
     /// </summary>
     public class RegistroModel : ErrorModel
     {
+        //Para el manejo de la lista
         public List<JugadoresModel> lstJugadores { get; set; }
+
+        //Para agregar jugadores
+        public int TipoIdentificacionJugador { get; set; }
+        public int IdentificacionJugador { get; set; }
+        public string NombreJugador { get; set; }
+        public int EdadJugador { get; set; }
+        public string SexoJugador { get; set; }
+        public string EstadoJugador { get; set; }
+        public float DisponibleJugador { get; set; }
     }
 }
