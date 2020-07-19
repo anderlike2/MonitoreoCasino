@@ -1,7 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Jugadores";
+﻿@model Casino.Models.RegistroModel
+
+@{
+    ViewData["Title"] = "Manejo de Jugadores";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<br /><br />
 
-<p>Use this area to provide additional information.</p>
+<button type="button" class="btn btn-success">Agregar Jugador</button>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Disponible ($)</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach(var item in Model.lstJugadores)
+       {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.Edad</td>
+            <td>@item.Sexo</td>
+            <td>@item.Estado</td>
+            <td>@item.Disponible</td>
+        </tr>
+       }
+    </tbody>
+</table>
+
