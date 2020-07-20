@@ -104,5 +104,29 @@ namespace Casino.Daos
                 return result > 0;
             }
         }
+
+        // <summary>
+        /// Metodo para actualizar los nuevos disponibles
+        /// Autor: Anderson Benavides
+        /// 2020-07-19
+        /// </summary>
+        /// <param name="registroModel"></param>
+        /// <param name="pathDB"> Ruta del archivo de Base de datos</param>
+        public bool ActualizarDisponible(RegistroModel registroModel, string pathDB)
+        {
+            using (var cnn = SqlLiteConexion.SimpleDbConnection(pathDB))
+            {
+                int result = cnn.Execute(
+                    @"UPDATE JUGADORES SET ESTADO = @ESTADOJUGADOR, DISPONIBLE = @DISPONIBLEJUGADOR 
+                        WHERE IDENTIFICACION = @IDENTIFICACIONJUGADOR",
+                    new
+                    {
+                        registroModel.EstadoJugador,
+                        registroModel.DisponibleJugador,
+                        registroModel.IdentificacionJugador
+                    });
+                return result > 0;
+            }
+        }
     }
 }

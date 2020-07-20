@@ -96,6 +96,12 @@ function CalcularCantidad() {
 //@author: Anderson Benavides
 //Fecha: 2020/19/07
 function SimularRuleta() {
+
+    $('#valorSimulador').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+
     // Rojo-> Random (0, 49.5) - 49.5% 
     // Negro-> Random (49.5, 99) - 49.5% 
     // Verde-> Random (99, 100) - 1%
@@ -116,38 +122,63 @@ function SimularRuleta() {
     }
 
     //Calcular los ganadores
+    $('#resultadosJugadores tbody').empty();
+    var registrosActualizar = '';
     for (var i = 0; i < $('#apuestasJugadores tbody tr').length; i++) {
+        var jugadorActualizar = '';
         var id = $('#apuestasJugadores tbody tr')[i].id;
-        var dato = id.substring(id.indexOf('_') + 1, id.length);
-        var filaId = '.table #row_' + dato + ' #apuesta_' + dato;
+        var identificacion = id.substring(id.indexOf('_') + 1, id.length);
+        var filaId = '.table #row_' + identificacion + ' #apuesta_' + identificacion;
 
         var classSel = '';
-        var valorSel = '';
-        var haGanado = false;
+        var valorSel = '';       
+
+        var nombreActual = $('.table #row_' + identificacion + ' #nombre_' + identificacion)[0].innerText; 
+        var disponibleActual = $('.table #row_' + identificacion + ' #disponible_' + identificacion)[0].innerText;
+        var estadoActual = '';
+        var nuevoDisponible = 0;
+
         if (colorRuleta == 'Rojo') {
             classSel = $(filaId)[0].outerHTML.includes('btn btn-danger');
             valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
-            if (classSel){
-                haGanado = true;
-            }            
+            if (classSel) {
+                estadoActual = 'Ganador';
+                nuevoDisponible = parseFloat(disponibleActual) + parseFloat(valorSel);
+            } else {
+                estadoActual = 'Perdedor';
+                nuevoDisponible = parseFloat(disponibleActual) - parseFloat(valorSel);
+            }          
         } else if (colorRuleta == 'Negro') {
             classSel = $(filaId)[0].outerHTML.includes('btn btn-secondary');
             valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
             if (classSel) {
-                haGanado = true;
+                estadoActual = 'Ganador';
+                nuevoDisponible = parseFloat(disponibleActual) + parseFloat(valorSel);
+            } else {
+                estadoActual = 'Perdedor';
+                nuevoDisponible = parseFloat(disponibleActual) - parseFloat(valorSel);
             }
         } else if (colorRuleta == 'Verde') {
             classSel = $(filaId)[0].outerHTML.includes('btn btn-success');
             valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
             if (classSel) {
-                haGanado = true;
+                estadoActual = 'Ganador';
+                nuevoDisponible = (parseFloat(disponibleActual) - parseFloat(valorSel)) + (parseFloat(valorSel) * 10);
+            } else {
+                estadoActual = 'Perdedor';
+                nuevoDisponible = parseFloat(disponibleActual) - parseFloat(valorSel);
             }
         }     
 
-        //Jugadores ganaron o perdieron
-       
+        //Jugadores ganaron o perdieron        
+        if (valorSel != '') {
+            $('#resultadosJugadores tbody').append('<tr><td>' + nombreActual + '</td><td>' + disponibleActual + '</td><td>' + estadoActual + '</td><td>' + valorSel + '</td><td>' + nuevoDisponible + '</td></tr>');
+            jugadorActualizar = identificacion + '||' + nuevoDisponible;
+            registrosActualizar = registrosActualizar + jugadorActualizar + ';';
+        }          
     }
 
+    $("#jugadoresActualizar").val(registrosActualizar);    
     $("#valorSimulador").modal();
 }
 
@@ -164,8 +195,38 @@ function getRandomArbitrary(min, max) {
 function ReiniciarApuestas() {
     for (var i = 0; i < $('#apuestasJugadores tbody tr').length; i++) {
         var id = $('#apuestasJugadores tbody tr')[i].id;
-        var dato = id.substring(id.indexOf('_') + 1, id.length);
-        var filaId = '.table #row_' + dato + ' #apuesta_' + dato;
+        var identificacion = id.substring(id.indexOf('_') + 1, id.length);
+        var filaId = '.table #row_' + identificacion + ' #apuesta_' + identificacion;
         $(filaId).html('');
+    }
+}
+
+//Funcion para actualizar los nuevos valores disponibles
+//@author: Anderson Benavides
+//Fecha: 2020/19/07
+function ActualizarDisponibles() {
+    var registrosActualizar = $("#jugadoresActualizar").val();
+    if (registrosActualizar != null && registrosActualizar != '') {
+
+        var model = {
+            registrosActualizar: registrosActualizar
+        };
+        $.ajax({
+            type: "POST",
+            url: '/Home/ActualizarDisponibles',
+            data: model,
+            dataType: 'text',
+            success: function (result) {
+                $("#valorSimulador").modal('hide');
+                location.reload();
+            },
+            error: function (result) {
+                $("#valorSimulador").modal('hide');
+                location.reload();
+            },
+        });
+
+    } else {
+        $("#valorSimulador").modal('hide');
     }
 }

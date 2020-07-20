@@ -22,7 +22,7 @@
         @foreach (var item in Model.lstJugadores)
         {
         <tr id="row_@item.Identificacion">
-            <td>@item.Nombre</td>
+            <td id="nombre_@item.Identificacion">@item.Nombre</td>
             @if (item.Estado == "A")
             {
                 <td>Activo</td>
@@ -31,7 +31,7 @@
             {
                 <td>Inactivo</td>
             }
-            <td>@item.Disponible</td>
+            <td id="disponible_@item.Identificacion">@item.Disponible</td>
             @if (item.Estado == "A")
             {
                 <td><button type="button" class="btn btn-primary" onclick="AbrirModalParticiparJuego('@item.Nombre', @item.Disponible, @item.Identificacion);">Participar Juego</button></td>
@@ -99,7 +99,7 @@
                             <option value="3">Verde</option>
                         </select>
                     </div>
-                    <div id="colorSeleccionado"><span>.</span></div>
+                    <div id="colorSeleccionado"><span style="color:transparent">.</span></div>
                     <div class="form-group">
                         <label class="col-form-label control-label">Cantidad Apostada:</label>
                         <input type="text" class="form-control" id="simuladorCantidadApostada">
@@ -120,23 +120,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Resultado de la Ruleta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <div>El resultado de la ruleta es:  <span id="colorRuleta"></span></div>
-                <div id="colorPantallaRuleta">.</div>
+                <div id="colorPantallaRuleta" style="color:transparent">.</div>
                 <br /><br />
                 <div>A continuación el resultado de los juegos:</div>
                     <table class="table" id="resultadosJugadores">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Nombre</th>
+                                <th scope="col">Disponible</th>
                                 <th scope="col">Estado</th>
-                                <th scope="col">Porcentaje Apostado</th>
-                                <th scope="col">Ganancia</th>
-                                <th scope="col">Total Disponible</th>
+                                <th scope="col">Apuesta</th>
+                                <th scope="col">Nuevo Disponible</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -145,7 +142,8 @@
                     </table>
                 </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                <input type="hidden" id="jugadoresActualizar" />
+                <button type="button" class="btn btn-primary" onclick="ActualizarDisponibles();">Aceptar</button>
             </div>
         </div>
     </div>

@@ -155,6 +155,26 @@ namespace Casino.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult ActualizarDisponibles(string registrosActualizar)
+        {
+            try
+            {
+                jugadoresService = new JugadoresService();
+                string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
+                jugadoresService.ActualizarDisponible(registrosActualizar, dbConn);
+                return Json("OK");
+            }
+            catch (BusinessException ex)
+            {
+                return Json("FAIL");
+            }
+            catch (Exception ex)
+            {
+                return Json("FAIL");
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();
