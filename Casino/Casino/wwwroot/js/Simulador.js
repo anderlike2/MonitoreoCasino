@@ -219,6 +219,7 @@ function ActualizarDisponibles() {
             success: function (result) {
                 $("#valorSimulador").modal('hide');
                 location.reload();
+               
             },
             error: function (result) {
                 $("#valorSimulador").modal('hide');

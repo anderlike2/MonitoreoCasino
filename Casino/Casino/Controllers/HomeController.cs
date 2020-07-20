@@ -54,26 +54,35 @@ namespace Casino.Controllers
         [HttpPost]
         public JsonResult AlmacenarJugador(RegistroModel model)
         {
+            ErrorModel response = new ErrorModel();
             try
             {
                 jugadoresService = new JugadoresService();
                 string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
                 jugadoresService.InsertarJugador(model, dbConn);
-                return Json("OK");
+                response.CodigoError = 1;
+                response.DescripcionError = "OK";
+
+                return Json(response);
             }
             catch (BusinessException ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
             catch (Exception ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }            
         }
 
         [HttpPost]
         public JsonResult ConsultarJugador(RegistroModel model)
         {
+            ErrorModel response = new ErrorModel();
             try
             {
                 jugadoresService = new JugadoresService();
@@ -83,51 +92,71 @@ namespace Casino.Controllers
             }
             catch (BusinessException ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
             catch (Exception ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
         }
 
         [HttpPost]
         public JsonResult EditarJugador(RegistroModel model)
         {
+            ErrorModel response = new ErrorModel();
             try
             {
                 jugadoresService = new JugadoresService();
                 string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
                 jugadoresService.ActualizarJugador(model, dbConn);
-                return Json("OK");
+                response.CodigoError = 1;
+                response.DescripcionError = "OK";
+
+                return Json(response);
             }
             catch (BusinessException ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
             catch (Exception ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
         }
 
         [HttpPost]
         public JsonResult EliminarJugador(RegistroModel model)
         {
+            ErrorModel response = new ErrorModel();
             try
             {
                 jugadoresService = new JugadoresService();
                 string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
                 jugadoresService.EliminarJugador(model.TipoIdentificacionJugador, model.IdentificacionJugador, dbConn);
-                return Json("OK");
+                response.CodigoError = 1;
+                response.DescripcionError = "OK";
+
+                return Json(response);
             }
             catch (BusinessException ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
             catch (Exception ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
         }
 
@@ -158,20 +187,28 @@ namespace Casino.Controllers
         [HttpPost]
         public JsonResult ActualizarDisponibles(string registrosActualizar)
         {
+            ErrorModel response = new ErrorModel();
             try
             {
                 jugadoresService = new JugadoresService();
                 string dbConn = _config.GetSection("General").GetSection("PathDB").Value;
                 jugadoresService.ActualizarDisponible(registrosActualizar, dbConn);
-                return Json("OK");
+                response.CodigoError = 1;
+                response.DescripcionError = "OK";
+
+                return Json(response);
             }
             catch (BusinessException ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
             catch (Exception ex)
             {
-                return Json("FAIL");
+                response.CodigoError = 2;
+                response.DescripcionError = ex.Message;
+                return Json(response);
             }
         }
 

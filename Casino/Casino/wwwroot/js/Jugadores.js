@@ -43,8 +43,13 @@ function GuardarJugador(){
                 data: model,
                 dataType: 'json',
                 success: function (result) {
-                    $("#agregarJugador").modal('hide');
-                    location.reload();
+                    if (result.codigoError != undefined && result.codigoError != null && result.codigoError == 1) {
+                        $("#agregarJugador").modal('hide');
+                        location.reload();
+                    } else {
+                        alert(result.descripcionError);
+                    }
+                   
                 },
                 error: function (result) {
                     $("#agregarJugador").modal('hide');
@@ -58,8 +63,12 @@ function GuardarJugador(){
                 data: model,
                 dataType: 'json',
                 success: function (result) {
-                    $("#agregarJugador").modal('hide');
-                    location.reload();
+                    if (result.codigoError != undefined && result.codigoError != null && result.codigoError == 1) {
+                        $("#agregarJugador").modal('hide');
+                        location.reload();
+                    } else {
+                        alert(result.descripcionError);
+                    }
                 },
                 error: function (result) {
                     $("#agregarJugador").modal('hide');
@@ -151,8 +160,13 @@ function ConfirmarEliminarJugador() {
         data: model,
         dataType: 'json',
         success: function (result) {
-            $("#eliminarJugador").modal('hide');
-            location.reload();
+            if (result.codigoError != undefined && result.codigoError != null && result.codigoError == 1) {
+                $("#eliminarJugador").modal('hide');
+                location.reload();
+            } else {
+                alert(result.descripcionError);
+            }
+            
         },
         error: function (result) {
             $("#eliminarJugador").modal('hide');

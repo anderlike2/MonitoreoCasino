@@ -1,4 +1,5 @@
-﻿using Casino.Daos;
+﻿using Casino.Common;
+using Casino.Daos;
 using Casino.Models;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,12 @@ namespace Casino.Services
         public bool InsertarJugador(RegistroModel registroModel, string pathDB)
         {
             JugadoresDao jugadoresDao = new JugadoresDao();
+            //Se valida que el jugador no exista en BD para su CC e Identificacion
+            JugadoresModel existe = ConsultarJugadoresPorIdentificacion(registroModel, pathDB);
+            if(existe != null && existe.Identificacion > 0)
+            {
+                throw new BusinessException(Constantes.MsjUsuarioExiste);
+            }
             registroModel.EstadoJugador = "A";
             return jugadoresDao.InsertarJugador(registroModel, pathDB);
         }

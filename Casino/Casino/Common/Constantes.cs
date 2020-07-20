@@ -16,5 +16,9 @@ namespace Casino.Common
         public const string TituloJugadores = "Manejo de jugadores.";
         public const string TituloSimulador = "Simulador de juegos.";
         #endregion
+
+        #region mensajes
+        public const string MsjUsuarioExiste = "El usuario ya se encuentra registrado en el sistema.";
+        #endregion
     }
 }
