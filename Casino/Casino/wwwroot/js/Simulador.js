@@ -100,15 +100,52 @@ function SimularRuleta() {
     // Negro-> Random (49.5, 99) - 49.5% 
     // Verde-> Random (99, 100) - 1%
     var numeroRuleta = getRandomArbitrary(0, 100);
+    var colorRuleta = '';
     if (numeroRuleta >= 0 && numeroRuleta <= 49.5) {
         $("#colorRuleta").html('Rojo');
         $("#colorPantallaRuleta").css("background-color", "red");
+        colorRuleta = 'Rojo';
     } else if (numeroRuleta > 49.6 && numeroRuleta <= 99) {
         $("#colorRuleta").html('Negro');
         $("#colorPantallaRuleta").css("background-color", "black");
+        colorRuleta = 'Negro';
     } else {
         $("#colorRuleta").html('Verde');
         $("#colorPantallaRuleta").css("background-color", "green");
+        colorRuleta = 'Verde';
+    }
+
+    //Calcular los ganadores
+    for (var i = 0; i < $('#apuestasJugadores tbody tr').length; i++) {
+        var id = $('#apuestasJugadores tbody tr')[i].id;
+        var dato = id.substring(id.indexOf('_') + 1, id.length);
+        var filaId = '.table #row_' + dato + ' #apuesta_' + dato;
+
+        var classSel = '';
+        var valorSel = '';
+        var haGanado = false;
+        if (colorRuleta == 'Rojo') {
+            classSel = $(filaId)[0].outerHTML.includes('btn btn-danger');
+            valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
+            if (classSel){
+                haGanado = true;
+            }            
+        } else if (colorRuleta == 'Negro') {
+            classSel = $(filaId)[0].outerHTML.includes('btn btn-secondary');
+            valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
+            if (classSel) {
+                haGanado = true;
+            }
+        } else if (colorRuleta == 'Verde') {
+            classSel = $(filaId)[0].outerHTML.includes('btn btn-success');
+            valorSel = $(filaId)[0].innerText.substring(2, $(filaId)[0].innerText.length);
+            if (classSel) {
+                haGanado = true;
+            }
+        }     
+
+        //Jugadores ganaron o perdieron
+       
     }
 
     $("#valorSimulador").modal();
@@ -119,4 +156,16 @@ function SimularRuleta() {
 //Fecha: 2020/19/07
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
+}
+
+//Funcion para reiniciar los valores de las apuestas de los jugadores
+//@author: Anderson Benavides
+//Fecha: 2020/19/07
+function ReiniciarApuestas() {
+    for (var i = 0; i < $('#apuestasJugadores tbody tr').length; i++) {
+        var id = $('#apuestasJugadores tbody tr')[i].id;
+        var dato = id.substring(id.indexOf('_') + 1, id.length);
+        var filaId = '.table #row_' + dato + ' #apuesta_' + dato;
+        $(filaId).html('');
+    }
 }

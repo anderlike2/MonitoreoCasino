@@ -56,7 +56,7 @@ namespace Casino
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Simulador}/{id?}");
             });
         }
     }

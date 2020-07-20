@@ -8,7 +8,7 @@
 <!--Seccion Scripts-->
 <script type="text/javascript" src="~/js/Simulador.js"></script>
 
-<table class="table">
+<table class="table" id="apuestasJugadores">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Nombre</th>
@@ -127,7 +127,23 @@
             <div class="modal-body">
                 <div>El resultado de la ruleta es:  <span id="colorRuleta"></span></div>
                 <div id="colorPantallaRuleta">.</div>
-            </div>
+                <br /><br />
+                <div>A continuación el resultado de los juegos:</div>
+                    <table class="table" id="resultadosJugadores">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Porcentaje Apostado</th>
+                                <th scope="col">Ganancia</th>
+                                <th scope="col">Total Disponible</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
             </div>
